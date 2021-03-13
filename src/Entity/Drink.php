@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\DrinkRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DrinkRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={"groups"={"read"}},
+ *      denormalizationContext={"groups"={"write"}}
+ * )
  * @ORM\Entity(repositoryClass=DrinkRepository::class)
  */
 class Drink
@@ -16,16 +20,19 @@ class Drink
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("read")
      */
     private $slug;
 
