@@ -4,6 +4,8 @@ namespace App\DataPersister;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Exception\EmailAlreadyUsedException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -30,9 +32,13 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
 
             $data->eraseCredentials();
         }
-
-        $this->em->persist($data);
-        $this->em->flush();
+        try {
+            $this->em->persist($data);
+            $this->em->flush();
+        }
+        catch (UniqueConstraintViolationException $e) {
+            throw new EmailAlreadyUsedException(sprintf('The email "%s" is already used.', $data->getEmail()));
+        }
     }
 
     public function remove($data, array $context = [])
