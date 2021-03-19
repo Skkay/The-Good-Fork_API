@@ -36,5 +36,34 @@ class AuthenticationTest extends ApiTestCase
         ]);
         $this->assertResponseStatusCodeSame(400);
     }
+
+    public function testLogin(): void
+    {
+        $client = self::createClient();
+
+        $user = new User();
+        $user->setEmail("test@example.com");
+        $user->setPassword(
+            self::$container->get('security.password_encoder')->encodePassword($user, "L'avez vous vu ?")
+        );
+
+        $manage = self::$container->get('doctrine')->getManager();
+        $manage->persist($user);
+        $manage->flush();
+
+        // Retrieve a token
+        $response = $client->request('POST', $this->api_prefix_url.'/login', [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'email' => "test@example.com",
+                'password' => "L'avez vous vu ?"
+            ]
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $json = $response->toArray();
+        $this->assertArrayHasKey('token', $json);
+        $this->assertArrayHasKey('data', $json);
+    }
 }
-/**
