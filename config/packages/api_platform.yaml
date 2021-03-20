@@ -16,4 +16,4 @@ api_platform:
         ApiPlatform\Core\Exception\FilterValidationException: 400
         Doctrine\ORM\OptimisticLockException: 409
 
-        App\Exception\EmailAlreadyUsedException: 400
+        App\Exception\FieldAlreadyUsedException: 400

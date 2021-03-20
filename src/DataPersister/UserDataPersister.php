@@ -4,7 +4,7 @@ namespace App\DataPersister;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Exception\EmailAlreadyUsedException;
+use App\Exception\FieldAlreadyUsedException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -37,7 +37,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
             $this->em->flush();
         }
         catch (UniqueConstraintViolationException $e) {
-            throw new EmailAlreadyUsedException(sprintf('The email "%s" is already used.', $data->getEmail()));
+            throw new FieldAlreadyUsedException(sprintf('The email "%s" is already used.', $data->getEmail()));
         }
     }
 
