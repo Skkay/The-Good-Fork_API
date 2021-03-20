@@ -20,7 +20,7 @@ class AuthenticationTest extends ApiTestCase
         $response = $client->request('POST', $this->api_prefix_url.'/users', [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
-                'email' => "test@example.com",
+                'email' => "test_new_user@example.com",
                 'password' => "L'avez vous vu ?"
             ]
         ]);
@@ -30,8 +30,8 @@ class AuthenticationTest extends ApiTestCase
         $response = $client->request('POST', $this->api_prefix_url.'/users', [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
-                'email' => "test@example.com",
-                'password' => "L'avez vous vu ?"
+                'email' => "test_user@example.com",
+                'password' => "L'avez vous vu cette fois ci ?"
             ]
         ]);
         $this->assertResponseStatusCodeSame(400);
@@ -41,22 +41,12 @@ class AuthenticationTest extends ApiTestCase
     {
         $client = self::createClient();
 
-        $user = new User();
-        $user->setEmail("test@example.com");
-        $user->setPassword(
-            self::$container->get('security.password_encoder')->encodePassword($user, "L'avez vous vu ?")
-        );
-
-        $manage = self::$container->get('doctrine')->getManager();
-        $manage->persist($user);
-        $manage->flush();
-
         // Retrieve a token
         $response = $client->request('POST', $this->api_prefix_url.'/login', [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
-                'email' => "test@example.com",
-                'password' => "L'avez vous vu ?"
+                'email' => "test_user@example.com",
+                'password' => "a_weak_user_password"
             ]
         ]);
 
