@@ -128,6 +128,9 @@ class AuthorizationTest extends ApiTestCase
         $client->request('POST', $this->api_prefix_url.'/drinks', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Drink"]]);
         $this->assertResponseStatusCodeSame(201);
 
+        $client->request('POST', $this->api_prefix_url.'/drinks', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Drink"]]);
+        $this->assertResponseStatusCodeSame(400);
+
         $client->request('GET', $this->api_prefix_url.'/drinks/1', ['auth_bearer' => $tokenAdminUser]);
         $this->assertResponseStatusCodeSame(200);
 

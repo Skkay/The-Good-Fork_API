@@ -4,7 +4,9 @@ namespace App\DataPersister;
 
 use App\Entity\Drink;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Exception\FieldAlreadyUsedException;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 
 class DrinkDataPersister implements ContextAwareDataPersisterInterface
@@ -27,8 +29,14 @@ class DrinkDataPersister implements ContextAwareDataPersisterInterface
     {
         $data->setSlug($this->slugger->slug(strtolower($data->getName())));
 
-        $this->em->persist($data);
-        $this->em->flush();
+        try {
+            $this->em->persist($data);
+            $this->em->flush();
+        }
+        catch (UniqueConstraintViolationException $e)
+        {
+            throw new FieldAlreadyUsedException(sprintf('The name "%s" is already used', $data->getName()));
+        }
     }
 
     public function remove($data, array $context = [])
