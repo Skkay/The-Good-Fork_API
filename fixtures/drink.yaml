@@ -1,4 +1,3 @@
 App\Entity\Drink:
     drink1:
         name: Drink 1
-        slug: drink-1
