@@ -1,0 +1,3 @@
+App\Entity\Food:
+    food1:
+        name: Food 1
