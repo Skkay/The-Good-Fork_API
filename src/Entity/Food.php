@@ -9,17 +9,39 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *      normalizationContext={"groups"={"read"}},
- *      denormalizationContext={"groups"={"write"}},
+ *      normalizationContext={
+ *          "groups"={"read"}
+ *      },
+ *      denormalizationContext={
+ *          "groups"={"write"}
+ *      },
  *      collectionOperations={
- *          "get"={"security"="is_granted('ROLE_USER')", "path"="/foods"},
- *          "post"={"security"="is_granted('ROLE_ADMIN')", "path"="/foods"}
+ *          "get"={
+ *              "security"="is_granted('ROLE_USER')", 
+ *              "path"="/foods"
+ *          },
+ *          "post"={
+ *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "path"="/foods"
+ *          }
  *      },
  *      itemOperations={
- *          "get"={"security"="is_granted('ROLE_USER')", "path"="/foods/{id}"},
- *          "put"={"security"="is_granted('ROLE_ADMIN')", "path"="/foods/{id}"},
- *          "delete"={"security"="is_granted('ROLE_ADMIN')", "path"="/foods/{id}"},
- *          "patch"={"security"="is_granted('ROLE_ADMIN')", "path"="/foods/{id}"}
+ *          "get"={
+ *              "security"="is_granted('ROLE_USER')", 
+ *              "path"="/foods/{id}"
+ *          },
+ *          "put"={
+ *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "path"="/foods/{id}"
+ *          },
+ *          "delete"={
+ *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "path"="/foods/{id}"
+ *          },
+ *          "patch"={
+ *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "path"="/foods/{id}"
+ *          }
  *      }
  * )
  * @ORM\Entity(repositoryClass=FoodRepository::class)
