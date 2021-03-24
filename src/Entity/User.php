@@ -14,14 +14,14 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *      normalizationContext={"groups"={"read"}},
  *      denormalizationContext={"groups"={"write"}},
  *      collectionOperations={
- *          "get"={"security"="is_granted('ROLE_ADMIN')"},
- *          "post"={"security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')"}
+ *          "get"={"security"="is_granted('ROLE_ADMIN')", "path"="/users"},
+ *          "post"={"security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')", "path"="/users"}
  *      },
  *      itemOperations={
- *          "get"={"security"="is_granted('ROLE_ADMIN') or object.getId() == user.getId()"},
- *          "put"={"security"="is_granted('ROLE_ADMIN')"},
- *          "delete"={"security"="is_granted('ROLE_ADMIN')"},
- *          "patch"={"security"="is_granted('ROLE_ADMIN')"}
+ *          "get"={"security"="is_granted('ROLE_ADMIN') or object.getId() == user.getId()", "path"="/users/{id}"},
+ *          "put"={"security"="is_granted('ROLE_ADMIN')", "path"="/users/{id}"},
+ *          "delete"={"security"="is_granted('ROLE_ADMIN')", "path"="/users/{id}"},
+ *          "patch"={"security"="is_granted('ROLE_ADMIN')", "path"="/users/{id}"}
  *      }
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)

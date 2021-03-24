@@ -12,14 +12,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      normalizationContext={"groups"={"read"}},
  *      denormalizationContext={"groups"={"write"}},
  *      collectionOperations={
- *          "get"={"security"="is_granted('ROLE_USER')"},
- *          "post"={"security"="is_granted('ROLE_ADMIN')"}
+ *          "get"={"security"="is_granted('ROLE_USER')", "path"="/drinks"},
+ *          "post"={"security"="is_granted('ROLE_ADMIN')", "path"="/drinks"}
  *      },
  *      itemOperations={
- *          "get"={"security"="is_granted('ROLE_USER')"},
- *          "put"={"security"="is_granted('ROLE_ADMIN')"},
- *          "delete"={"security"="is_granted('ROLE_ADMIN')"},
- *          "patch"={"security"="is_granted('ROLE_ADMIN')"}
+ *          "get"={"security"="is_granted('ROLE_USER')", "path"="/drinks/{id}"},
+ *          "put"={"security"="is_granted('ROLE_ADMIN')", "path"="/drinks/{id}"},
+ *          "delete"={"security"="is_granted('ROLE_ADMIN')", "path"="/drinks/{id}"},
+ *          "patch"={"security"="is_granted('ROLE_ADMIN')", "path"="/drinks/{id}"}
  *      }
  * )
  * @ORM\Entity(repositoryClass=DrinkRepository::class)
