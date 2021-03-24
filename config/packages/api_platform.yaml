@@ -17,3 +17,4 @@ api_platform:
         Doctrine\ORM\OptimisticLockException: 409
 
         App\Exception\FieldAlreadyUsedException: 400
+        App\Exception\EntityNotFoundException: 400
