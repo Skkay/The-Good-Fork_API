@@ -1,3 +1,9 @@
 App\Entity\Drink:
     drink1:
         name: Drink 1
+    drink2:
+        name: Drink 2
+    drink3:
+        name: Drink 3
+    drink4:
+        name: Drink 4

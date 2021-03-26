@@ -1,3 +1,9 @@
 App\Entity\Food:
     food1:
         name: Food 1
+    food2:
+        name: Food 2
+    food3:
+        name: Food 3
+    food4:
+        name: Food 4
