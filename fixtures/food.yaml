@@ -1,9 +1,15 @@
 App\Entity\Food:
     food1:
         name: Food 1
+        description: Description for food 1
+        price: 1.99
     food2:
         name: Food 2
+        price: 1.99
     food3:
         name: Food 3
+        price: 1.99
     food4:
         name: Food 4
+        description: Description for food 4
+        price: 1.99

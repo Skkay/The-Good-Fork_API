@@ -43,16 +43,16 @@ class AuthorizationForFoodsTest extends ApiTestCase
         $client->request('GET', $this->api_prefix_url.'/foods');
         $this->assertResponseStatusCodeSame(401);
 
-        $client->request('POST', $this->api_prefix_url.'/foods', ['headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Food"]]);
+        $client->request('POST', $this->api_prefix_url.'/foods', ['headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Food", 'description' => "Description for new food", 'price' => 0.99]]);
         $this->assertResponseStatusCodeSame(401);
 
         $client->request('GET', $this->api_prefix_url.'/foods/1');
         $this->assertResponseStatusCodeSame(401);
 
-        $client->request('PUT', $this->api_prefix_url.'/foods/1', ['headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Food"]]);
+        $client->request('PUT', $this->api_prefix_url.'/foods/1', ['headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Food", 'description' => "Description for replaced food", 'price' => 1.99]]);
         $this->assertResponseStatusCodeSame(401);
 
-        $client->request('PATCH', $this->api_prefix_url.'/foods/1', ['headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Food"]]);
+        $client->request('PATCH', $this->api_prefix_url.'/foods/1', ['headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Food", 'description' => "Description for updated food", 'price' => 2.99]]);
         $this->assertResponseStatusCodeSame(401);
 
         $client->request('DELETE', $this->api_prefix_url.'/foods/1');
@@ -63,16 +63,16 @@ class AuthorizationForFoodsTest extends ApiTestCase
         $client->request('GET', $this->api_prefix_url.'/foods', ['auth_bearer' => $tokenStandardUser]);
         $this->assertResponseStatusCodeSame(200);
 
-        $client->request('POST', $this->api_prefix_url.'/foods', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Food"]]);
+        $client->request('POST', $this->api_prefix_url.'/foods', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Food", 'description' => "Description for new food", 'price' => 0.99]]);
         $this->assertResponseStatusCodeSame(403);
 
         $client->request('GET', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenStandardUser]);
         $this->assertResponseStatusCodeSame(200);
 
-        $client->request('PUT', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Food"]]);
+        $client->request('PUT', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Food", 'description' => "Description for replaced food", 'price' => 1.99]]);
         $this->assertResponseStatusCodeSame(403);
 
-        $client->request('PATCH', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Food"]]);
+        $client->request('PATCH', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Food", 'description' => "Description for updated food", 'price' => 2.99]]);
         $this->assertResponseStatusCodeSame(403);
 
         $client->request('DELETE', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenStandardUser]);
@@ -83,19 +83,19 @@ class AuthorizationForFoodsTest extends ApiTestCase
         $client->request('GET', $this->api_prefix_url.'/foods', ['auth_bearer' => $tokenAdminUser]);
         $this->assertResponseStatusCodeSame(200);
 
-        $client->request('POST', $this->api_prefix_url.'/foods', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Food"]]);
+        $client->request('POST', $this->api_prefix_url.'/foods', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Food", 'description' => "Description for new food", 'price' => 0.99]]);
         $this->assertResponseStatusCodeSame(201);
 
-        $client->request('POST', $this->api_prefix_url.'/foods', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Food"]]);
+        $client->request('POST', $this->api_prefix_url.'/foods', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Food", 'description' => "Description for new food", 'price' => 0.99]]);
         $this->assertResponseStatusCodeSame(400);
 
         $client->request('GET', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenAdminUser]);
         $this->assertResponseStatusCodeSame(200);
 
-        $client->request('PUT', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Food"]]);
+        $client->request('PUT', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Food", 'description' => "Description for replaced food", 'price' => 1.99]]);
         $this->assertResponseStatusCodeSame(200);
 
-        $client->request('PATCH', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Food"]]);
+        $client->request('PATCH', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Food", 'description' => "Description for updated food", 'price' => 2.99]]);
         $this->assertResponseStatusCodeSame(200);
 
         $client->request('DELETE', $this->api_prefix_url.'/foods/1', ['auth_bearer' => $tokenAdminUser]);
