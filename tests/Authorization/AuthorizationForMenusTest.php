@@ -43,16 +43,16 @@ class AuthorizationForMenusTest extends ApiTestCase
         $client->request('GET', $this->api_prefix_url.'/menus');
         $this->assertResponseStatusCodeSame(401);
 
-        $client->request('POST', $this->api_prefix_url.'/menus', ['headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu"]]);
+        $client->request('POST', $this->api_prefix_url.'/menus', ['headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'description' => "Description for new menu"]]);
         $this->assertResponseStatusCodeSame(401);
 
         $client->request('GET', $this->api_prefix_url.'/menus/1');
         $this->assertResponseStatusCodeSame(401);
 
-        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu"]]);
+        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'description' => "Description for replaced menu"]]);
         $this->assertResponseStatusCodeSame(401);
 
-        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Menu"]]);
+        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Menu", 'description' => "Description for updated menu"]]);
         $this->assertResponseStatusCodeSame(401);
 
         $client->request('DELETE', $this->api_prefix_url.'/menus/1');
@@ -63,16 +63,16 @@ class AuthorizationForMenusTest extends ApiTestCase
         $client->request('GET', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenStandardUser]);
         $this->assertResponseStatusCodeSame(200);
 
-        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu"]]);
+        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'description' => "Description for new menu"]]);
         $this->assertResponseStatusCodeSame(403);
 
         $client->request('GET', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenStandardUser]);
         $this->assertResponseStatusCodeSame(200);
 
-        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu"]]);
+        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'description' => "Description for replaced menu"]]);
         $this->assertResponseStatusCodeSame(403);
 
-        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Menu"]]);
+        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenStandardUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Menu", 'description' => "Description for updated menu"]]);
         $this->assertResponseStatusCodeSame(403);
 
         $client->request('DELETE', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenStandardUser]);
@@ -84,11 +84,11 @@ class AuthorizationForMenusTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(200);
 
         // All should be good
-        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 1'], ['name' => 'Drink 2']], 'foods' => [['name' => 'Food 1'], ['name' => 'Food 2']]]]);
+        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'description' => "Description for new menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 1'], ['name' => 'Drink 2']], 'foods' => [['name' => 'Food 1'], ['name' => 'Food 2']]]]);
         $this->assertResponseStatusCodeSame(201);
 
         // Should throw exception for duplicate menu name
-        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 1'], ['name' => 'Drink 2']], 'foods' => [['name' => 'Food 1'], ['name' => 'Food 2']]]]);
+        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'description' => "Description for new menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 1'], ['name' => 'Drink 2']], 'foods' => [['name' => 'Food 1'], ['name' => 'Food 2']]]]);
         $this->assertResponseStatusCodeSame(400);
 
         // Should throw exception for unknown drink
@@ -103,7 +103,7 @@ class AuthorizationForMenusTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(200);
 
         // All should be good
-        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 3'], ['name' => 'Drink 4']], 'foods' => [['name' => 'Food 4'], ['name' => 'Food 2']]]]);
+        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'description' => "Description for replaced menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 3'], ['name' => 'Drink 4']], 'foods' => [['name' => 'Food 4'], ['name' => 'Food 2']]]]);
         $this->assertResponseStatusCodeSame(200);
 
         // Should throw exception for unknown drink
@@ -115,7 +115,7 @@ class AuthorizationForMenusTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(400);
 
         // All should be good
-        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Menu"]]);
+        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['name' => "Updated Menu", 'description' => "Description for updated menu"]]);
         $this->assertResponseStatusCodeSame(200);
 
         // Should throw exception for unknown drink

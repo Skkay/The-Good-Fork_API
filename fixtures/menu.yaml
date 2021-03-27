@@ -2,5 +2,6 @@ App\Entity\Menu:
     menu1:
         name: Menu 1
         price: 10.99
+        description: Description for menu 1
         drinks: ['@drink1', '@drink2', '@drink3', '@drink4']
         foods: ['@food1', '@food2', '@food3', '@food4']
