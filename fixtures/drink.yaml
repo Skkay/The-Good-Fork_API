@@ -1,9 +1,15 @@
 App\Entity\Drink:
     drink1:
         name: Drink 1
+        description: Description for drink 1
+        price: 1.99
     drink2:
         name: Drink 2
+        price: 1.99
     drink3:
         name: Drink 3
+        price: 1.99
     drink4:
         name: Drink 4
+        description: Description for drink 4
+        price: 1.99
