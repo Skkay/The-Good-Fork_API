@@ -57,6 +57,12 @@ class Order
      */
     private $drinks;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=OrderStatus::class, inversedBy="orders")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();
@@ -185,6 +191,18 @@ class Order
     public function removeDrink(Drink $drink): self
     {
         $this->drinks->removeElement($drink);
+
+        return $this;
+    }
+
+    public function getStatus(): ?OrderStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?OrderStatus $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
