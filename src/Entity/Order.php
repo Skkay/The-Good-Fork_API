@@ -2,14 +2,50 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\OrderRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={
+ *          "groups"="read"
+ *      },
+ *      denormalizationContext={
+ *          "groups"="write"
+ *      },
+ *      collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "path"="/drinks"
+ *          },
+ *          "post"={
+ *              "security"="is_granted('ROLE_USER')", 
+ *              "path"="/drinks"
+ *          }
+ *      },
+ *      itemOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser().getId() == user.getId()", 
+ *              "path"="/drinks/{id}"
+ *          },
+ *          "put"={
+ *              "security"="is_granted('ROLE_USER')", 
+ *              "path"="/drinks/{id}"
+ *          },
+ *          "delete"={
+ *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "path"="/drinks/{id}"
+ *          },
+ *          "patch"={
+ *              "security"="is_granted('ROLE_USER')", 
+ *              "path"="/drinks/{id}"
+ *          }
+ *      }
+ * )
  * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\Table(name="`order`")
  */
@@ -19,53 +55,63 @@ class Order
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"read", "write"})
      */
     private $eatIn;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("read")
      */
     private $price;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("read")
      */
     private $date_order;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("read")
      */
     private $date_payment;
 
     /**
      * @ORM\ManyToMany(targetEntity=Menu::class)
+     * @Groups({"read", "write"})
      */
     private $menus;
 
     /**
      * @ORM\ManyToMany(targetEntity=Food::class)
+     * @Groups({"read", "write"})
      */
     private $foods;
 
     /**
      * @ORM\ManyToMany(targetEntity=Drink::class)
+     * @Groups({"read", "write"})
      */
     private $drinks;
 
     /**
      * @ORM\ManyToOne(targetEntity=OrderStatus::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("read")
      */
     private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("read")
      */
     private $user;
 
