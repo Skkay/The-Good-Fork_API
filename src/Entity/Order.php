@@ -20,29 +20,29 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      collectionOperations={
  *          "get"={
  *              "security"="is_granted('ROLE_ADMIN')", 
- *              "path"="/drinks"
+ *              "path"="/orders"
  *          },
  *          "post"={
  *              "security"="is_granted('ROLE_USER')", 
- *              "path"="/drinks"
+ *              "path"="/orders"
  *          }
  *      },
  *      itemOperations={
  *          "get"={
  *              "security"="is_granted('ROLE_ADMIN') or object.getUser().getId() == user.getId()", 
- *              "path"="/drinks/{id}"
+ *              "path"="/orders/{id}"
  *          },
  *          "put"={
  *              "security"="is_granted('ROLE_USER')", 
- *              "path"="/drinks/{id}"
+ *              "path"="/orders/{id}"
  *          },
  *          "delete"={
  *              "security"="is_granted('ROLE_ADMIN')", 
- *              "path"="/drinks/{id}"
+ *              "path"="/orders/{id}"
  *          },
  *          "patch"={
  *              "security"="is_granted('ROLE_USER')", 
- *              "path"="/drinks/{id}"
+ *              "path"="/orders/{id}"
  *          }
  *      }
  * )
@@ -85,19 +85,16 @@ class Order
 
     /**
      * @ORM\ManyToMany(targetEntity=Menu::class)
-     * @Groups({"read", "write"})
      */
     private $menus;
 
     /**
      * @ORM\ManyToMany(targetEntity=Food::class)
-     * @Groups({"read", "write"})
      */
     private $foods;
 
     /**
      * @ORM\ManyToMany(targetEntity=Drink::class)
-     * @Groups({"read", "write"})
      */
     private $drinks;
 
@@ -115,11 +112,30 @@ class Order
      */
     private $user;
 
+    /**
+     * @Groups("write")
+     */
+    private $menuIds;
+
+    /**
+     * @Groups("write")
+     */
+    private $foodIds;
+
+    /**
+     * @Groups("write")
+     */
+    private $drinkIds;
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();
         $this->foods = new ArrayCollection();
         $this->drinks = new ArrayCollection();
+
+        $this->menuIds = [];
+        $this->foodIds = [];
+        $this->drinkIds = [];
     }
 
     public function getId(): ?int
@@ -267,6 +283,42 @@ class Order
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getMenuIds(): ?array
+    {
+        return $this->menuIds;
+    }
+
+    public function setMenuIds(array $menuId): self
+    {
+        $this->menuIds = $menuId;
+
+        return $this;
+    }
+
+    public function getFoodIds(): ?array
+    {
+        return $this->foodIds;
+    }
+
+    public function setFoodIds(array $foodId): self
+    {
+        $this->foodIds = $foodId;
+
+        return $this;
+    }
+
+    public function getDrinkIds(): ?array
+    {
+        return $this->drinkIds;
+    }
+
+    public function setDrinkIds(array $drinkId): self
+    {
+        $this->drinkIds = $drinkId;
 
         return $this;
     }
