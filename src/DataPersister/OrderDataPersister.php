@@ -8,6 +8,7 @@ use App\Entity\Drink;
 use App\Entity\Order;
 use App\Entity\OrderStatus;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Exception\EntityNotFoundException;
 use Symfony\Component\Security\Core\Security;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 
@@ -35,30 +36,33 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
         $menuRepository = $this->em->getRepository(Menu::class);
         foreach ($data->getMenuIds() as $menuId) {
             $menu = $menuRepository->find($menuId);
-            if ($menu) {
-                $data->addMenu($menu);
-                $totalPrice += $menu->getPrice();
+            if ($menu === null) {
+                throw new EntityNotFoundException(sprintf('Menu with id "%s" is not found', $menuId));
             }
+            $data->addMenu($menu);
+            $totalPrice += $menu->getPrice();
         }
         
         // Convert food ids to food object
         $foodRepository = $this->em->getRepository(Food::class);
         foreach ($data->getFoodIds() as $foodId) {
             $food = $foodRepository->find($foodId);
-            if ($food) {
-                $data->addFood($food);
-                $totalPrice += $food->getPrice();
+            if ($food === null) {
+                throw new EntityNotFoundException(sprintf('Food with id "%s" is not found', $menuId));
             }
+            $data->addFood($food);
+            $totalPrice += $food->getPrice();
         }
         
         // Convert drink ids to drink object
         $drinkRepository = $this->em->getRepository(Drink::class);
         foreach ($data->getDrinkIds() as $drinkId) {
             $drink = $drinkRepository->find($drinkId);
-            if ($drink) {
-                $data->addDrink($drink);
-                $totalPrice += $drink->getPrice();
+            if ($drink === null) {
+                throw new EntityNotFoundException(sprintf('Drink with id "%s" is not found', $menuId));
             }
+            $data->addDrink($drink);
+            $totalPrice += $drink->getPrice();
         }
 
         $orderStatusRepository = $this->em->getRepository(OrderStatus::class);
