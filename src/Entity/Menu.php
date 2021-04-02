@@ -84,6 +84,7 @@ class Menu
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read", "write"})
      */
     private $description;
 
