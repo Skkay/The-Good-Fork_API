@@ -85,16 +85,19 @@ class Order
 
     /**
      * @ORM\ManyToMany(targetEntity=Menu::class)
+     * @Groups("read")
      */
     private $menus;
 
     /**
      * @ORM\ManyToMany(targetEntity=Food::class)
+     * @Groups("read")
      */
     private $foods;
 
     /**
      * @ORM\ManyToMany(targetEntity=Drink::class)
+     * @Groups("read")
      */
     private $drinks;
 
