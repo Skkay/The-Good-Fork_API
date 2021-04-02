@@ -84,34 +84,34 @@ class AuthorizationForMenusTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(200);
 
         // All should be good
-        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'description' => "Description for new menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 1'], ['name' => 'Drink 2']], 'foods' => [['name' => 'Food 1'], ['name' => 'Food 2']]]]);
+        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'description' => "Description for new menu", 'price' => 10.99, 'drinkIds' => [1, 2], 'foodIds' => [1, 2]]]);
         $this->assertResponseStatusCodeSame(201);
 
         // Should throw exception for duplicate menu name
-        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'description' => "Description for new menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 1'], ['name' => 'Drink 2']], 'foods' => [['name' => 'Food 1'], ['name' => 'Food 2']]]]);
+        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu", 'description' => "Description for new menu", 'price' => 10.99, 'drinkIds' => [1, 2], 'foodIds' => [1, 2]]]);
         $this->assertResponseStatusCodeSame(400);
 
         // Should throw exception for unknown drink
-        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu bis", 'price' => 10.99, 'drinks' => [['name' => 'Drink 1'], ['name' => 'Unknown Drink']], 'foods' => [['name' => 'Food 1'], ['name' => 'Food 2']]]]);
+        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu bis", 'price' => 10.99, 'drinkIds' => [1, 1664], 'foodIds' => [1, 2]]]);
         $this->assertResponseStatusCodeSame(400);
 
         // Should throw exception for unknown food
-        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu bis", 'price' => 10.99, 'drinks' => [['name' => 'Drink 1'], ['name' => 'Drink 2']], 'foods' => [['name' => 'Food 1'], ['name' => 'Unknown Food']]]]);
+        $client->request('POST', $this->api_prefix_url.'/menus', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "New Menu bis", 'price' => 10.99, 'drinkIds' => [1, 2], 'foodIds' => [1, 1938]]]);
         $this->assertResponseStatusCodeSame(400);
 
         $client->request('GET', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser]);
         $this->assertResponseStatusCodeSame(200);
 
         // All should be good
-        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'description' => "Description for replaced menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 3'], ['name' => 'Drink 4']], 'foods' => [['name' => 'Food 4'], ['name' => 'Food 2']]]]);
+        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'description' => "Description for replaced menu", 'price' => 10.99, 'drinkIds' => [3, 4], 'foodIds' => [4, 2]]]);
         $this->assertResponseStatusCodeSame(200);
 
         // Should throw exception for unknown drink
-        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'price' => 10.99, 'drinks' => [['name' => 'Unknown Drink'], ['name' => 'Drink 4']], 'foods' => [['name' => 'Food 4'], ['name' => 'Food 2']]]]);
+        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'price' => 10.99, 'drinkIds' => [1664, 4], 'foodIds' => [4, 2]]]);
         $this->assertResponseStatusCodeSame(400);
 
         // Should throw exception for unknown food
-        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'price' => 10.99, 'drinks' => [['name' => 'Drink 3'], ['name' => 'Drink 4']], 'foods' => [['name' => 'Unknown Food'], ['name' => 'Food 2']]]]);
+        $client->request('PUT', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/json'], 'json' => ['name' => "Replaced Menu", 'price' => 10.99, 'drinkIds' => [3, 4], 'foodIds' => [1938, 2]]]);
         $this->assertResponseStatusCodeSame(400);
 
         // All should be good
@@ -119,11 +119,11 @@ class AuthorizationForMenusTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(200);
 
         // Should throw exception for unknown drink
-        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['drinks' => [['name' => 'Unknown Drink']]]]);
+        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['drinkIds' => [1664]]]);
         $this->assertResponseStatusCodeSame(400);
 
         // Should throw exception for unknown food
-        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['foods' => [['name' => 'Unknown Food']]]]);
+        $client->request('PATCH', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser, 'headers' => ['Content-Type' => 'application/merge-patch+json'], 'json' => ['foodIds' => [1938]]]);
         $this->assertResponseStatusCodeSame(400);
 
         $client->request('DELETE', $this->api_prefix_url.'/menus/1', ['auth_bearer' => $tokenAdminUser]);
