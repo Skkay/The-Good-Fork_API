@@ -33,36 +33,42 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
         $totalPrice = 0;
 
         // Convert menu ids to menu object
-        $menuRepository = $this->em->getRepository(Menu::class);
-        foreach ($data->getMenuIds() as $menuId) {
-            $menu = $menuRepository->find($menuId);
-            if ($menu === null) {
-                throw new EntityNotFoundException(sprintf('Menu with id "%s" is not found', $menuId));
+        if (!empty($data->getMenuIds())) {
+            $menuRepository = $this->em->getRepository(Menu::class);
+            foreach ($data->getMenuIds() as $menuId) {
+                $menu = $menuRepository->find($menuId);
+                if ($menu === null) {
+                    throw new EntityNotFoundException(sprintf('Menu with id "%s" is not found', $menuId));
+                }
+                $data->addMenu($menu);
+                $totalPrice += $menu->getPrice();
             }
-            $data->addMenu($menu);
-            $totalPrice += $menu->getPrice();
         }
         
         // Convert food ids to food object
-        $foodRepository = $this->em->getRepository(Food::class);
-        foreach ($data->getFoodIds() as $foodId) {
-            $food = $foodRepository->find($foodId);
-            if ($food === null) {
-                throw new EntityNotFoundException(sprintf('Food with id "%s" is not found', $menuId));
+        if (!empty($data->getFoodIds())) {
+            $foodRepository = $this->em->getRepository(Food::class);
+            foreach ($data->getFoodIds() as $foodId) {
+                $food = $foodRepository->find($foodId);
+                if ($food === null) {
+                    throw new EntityNotFoundException(sprintf('Food with id "%s" is not found', $menuId));
+                }
+                $data->addFood($food);
+                $totalPrice += $food->getPrice();
             }
-            $data->addFood($food);
-            $totalPrice += $food->getPrice();
         }
         
         // Convert drink ids to drink object
-        $drinkRepository = $this->em->getRepository(Drink::class);
-        foreach ($data->getDrinkIds() as $drinkId) {
-            $drink = $drinkRepository->find($drinkId);
-            if ($drink === null) {
-                throw new EntityNotFoundException(sprintf('Drink with id "%s" is not found', $menuId));
+        if (!empty($data->getDrinkIds())) {
+            $drinkRepository = $this->em->getRepository(Drink::class);
+            foreach ($data->getDrinkIds() as $drinkId) {
+                $drink = $drinkRepository->find($drinkId);
+                if ($drink === null) {
+                    throw new EntityNotFoundException(sprintf('Drink with id "%s" is not found', $menuId));
+                }
+                $data->addDrink($drink);
+                $totalPrice += $drink->getPrice();
             }
-            $data->addDrink($drink);
-            $totalPrice += $drink->getPrice();
         }
 
         $orderStatusRepository = $this->em->getRepository(OrderStatus::class);
