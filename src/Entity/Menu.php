@@ -60,13 +60,13 @@ class Menu
 
     /**
      * @ORM\ManyToMany(targetEntity=Drink::class, cascade="persist")
-     * @Groups({"read", "write"})
+     * @Groups("read")
      */
     private $drinks;
 
     /**
      * @ORM\ManyToMany(targetEntity=Food::class, cascade="persist")
-     * @Groups({"read", "write"})
+     * @Groups("read")
      */
     private $foods;
 
@@ -88,10 +88,23 @@ class Menu
      */
     private $description;
 
+    /**
+     * @Groups("write")
+     */
+    private $drinkIds;
+
+    /**
+     * @Groups("write")
+     */
+    private $foodIds;
+
     public function __construct()
     {
         $this->drinks = new ArrayCollection();
         $this->foods = new ArrayCollection();
+
+        $this->drinkIds = [];
+        $this->foodIds = [];
     }
 
     public function getId(): ?int
@@ -179,6 +192,30 @@ class Menu
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDrinkIds(): ?array
+    {
+        return $this->drinkIds;
+    }
+
+    public function setDrinkIds(array $drinkId): self
+    {
+        $this->drinkIds = $drinkId;
+
+        return $this;
+    }
+
+    public function getFoodIds(): ?array
+    {
+        return $this->foodIds;
+    }
+
+    public function setFoodIds(array $foodId): self
+    {
+        $this->foodIds = $foodId;
 
         return $this;
     }

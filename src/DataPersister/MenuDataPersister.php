@@ -27,28 +27,28 @@ class MenuDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
-        // Try to find the drink passed to $data. Throw exception if it's not found, otherwise replace by found drink
-        $drinkRepository = $this->em->getRepository(Drink::class);
-        foreach($data->getDrinks() as $requestedDrink) {
-            $drink = $drinkRepository->findOneByName($requestedDrink->getName());
-            if ($drink === null) {
-                throw new EntityNotFoundException(sprintf('Drink "%s" not found', $requestedDrink->getName()));
+        // Convert drink ids to drink objects
+        if (!empty($data->getDrinkIds())) {
+            $drinkRepository = $this->em->getRepository(Drink::class);
+            foreach ($data->getDrinkIds() as $drinkId) {
+                $drink = $drinkRepository->find($drinkId);
+                if ($drink === null) {
+                    throw new EntityNotFoundException(sprintf('Drink with id "%s" is not found', $drinkId));
+                }
+                $data->addDrink($drink);
             }
-
-            $data->removeDrink($requestedDrink);
-            $data->addDrink($drink);
         }
 
-        // Try to find the food passed to $data. Throw exception if it's not found, otherwise replace by found food
-        $foodRepository = $this->em->getRepository(Food::class);
-        foreach($data->getFoods() as $requestedFood) {
-            $food = $foodRepository->findOneByName($requestedFood->getName());
-            if ($food === null) {
-                throw new EntityNotFoundException(sprintf('Food "%s" not found', $requestedFood->getName()));
+        // Convert food ids to food objects
+        if (!empty($data->getFoodIds())) {
+            $foodRepository = $this->em->getRepository(Food::class);
+            foreach ($data->getFoodIds() as $foodId) {
+                $food = $foodRepository->find($foodId);
+                if ($food === null) {
+                    throw new EntityNotFoundException(sprintf('Food with id "%s" is not found', $foodId));
+                }
+                $data->addFood($food);
             }
-
-            $data->removeFood($requestedFood);
-            $data->addFood($food);
         }
 
         try {
