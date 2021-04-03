@@ -33,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "path"="/orders/{id}"
  *          },
  *          "put"={
- *              "security"="is_granted('ROLE_USER')", 
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser().getId() == user.getId()", 
  *              "path"="/orders/{id}"
  *          },
  *          "delete"={
@@ -41,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "path"="/orders/{id}"
  *          },
  *          "patch"={
- *              "security"="is_granted('ROLE_USER')", 
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser().getId() == user.getId()", 
  *              "path"="/orders/{id}"
  *          }
  *      }
