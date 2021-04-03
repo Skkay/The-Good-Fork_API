@@ -1,0 +1,3 @@
+App\Entity\OrderStatus:
+    status1:
+        label: En attente

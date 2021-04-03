@@ -7,3 +7,6 @@ App\Entity\User:
         password: <hashPassword('a_strong_admin_password')>
         roles:
             - "ROLE_ADMIN"
+    user3:
+        email: test_user_2@example.com
+        password: <hashPassword('a_weak_user_password')>            

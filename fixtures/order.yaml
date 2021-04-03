@@ -1,0 +1,10 @@
+App\Entity\Order:
+    order1:
+        eatIn: true
+        price: 1
+        date_order: <dateTime()>
+        menus: ['@menu1']
+        foods: ['@food1', '@food2']
+        drinks: ['@drink1', '@drink2']
+        status: '@status1'
+        user: '@user3'
