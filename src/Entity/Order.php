@@ -29,11 +29,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      },
  *      itemOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_ADMIN') or object.getUser().getId() == user.getId()", 
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
  *              "path"="/orders/{id}"
  *          },
  *          "put"={
- *              "security"="is_granted('ROLE_ADMIN') or object.getUser().getId() == user.getId()", 
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
  *              "path"="/orders/{id}"
  *          },
  *          "delete"={
@@ -41,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "path"="/orders/{id}"
  *          },
  *          "patch"={
- *              "security"="is_granted('ROLE_ADMIN') or object.getUser().getId() == user.getId()", 
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
  *              "path"="/orders/{id}"
  *          }
  *      }
