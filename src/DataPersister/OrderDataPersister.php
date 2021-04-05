@@ -80,7 +80,7 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
         $data->setUser($this->security->getUser());
 
         $this->em->persist($data);
-        $this->em->flush($data);
+        $this->em->flush();
     }
 
     public function remove($data, array $context = [])
