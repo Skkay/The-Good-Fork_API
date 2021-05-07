@@ -65,7 +65,7 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             foreach ($occurencies as $foodId => $quantity) {
                 $food = $foodRepository->find($foodId);
                 if ($food === null) {
-                    throw new EntityNotFoundException(sprintf('Food with id "%s" is not found', $menuId));
+                    throw new EntityNotFoundException(sprintf('Food with id "%s" is not found', $foodId));
                 }
                 $orderFood = new OrderFood();
                 $orderFood->setFood($food);
@@ -84,7 +84,7 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             foreach ($occurencies as $drinkId => $quantity) {
                 $drink = $drinkRepository->find($drinkId);
                 if ($drink === null) {
-                    throw new EntityNotFoundException(sprintf('Drink with id "%s" is not found', $menuId));
+                    throw new EntityNotFoundException(sprintf('Drink with id "%s" is not found', $drinkId));
                 }
                 $orderDrink = new OrderDrink();
                 $orderDrink->setDrink($drink);
