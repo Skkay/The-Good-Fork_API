@@ -3,8 +3,8 @@ App\Entity\Order:
         eatIn: true
         price: 1
         date_order: <dateTime()>
-        menus: ['@menu1']
-        foods: ['@food1', '@food2']
-        drinks: ['@drink1', '@drink2']
+        orderedMenu: ['@orderMenu1']
+        orderedFood: ['@orderFood1']
+        orderedDrink: ['@orderDrink1']
         status: '@status1'
         user: '@user3'

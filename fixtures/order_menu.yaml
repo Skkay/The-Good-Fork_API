@@ -1,0 +1,4 @@
+App\Entity\OrderMenu:
+    orderMenu1:
+        menu: '@menu1'
+        quantity: 1

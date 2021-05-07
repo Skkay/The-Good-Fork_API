@@ -1,0 +1,4 @@
+App\Entity\OrderDrink:
+    orderDrink1:
+        drink: '@drink1'
+        quantity: 1

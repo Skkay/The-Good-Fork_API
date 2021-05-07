@@ -1,0 +1,4 @@
+App\Entity\OrderFood:
+    orderFood1:
+        food: '@food1'
+        quantity: 1
