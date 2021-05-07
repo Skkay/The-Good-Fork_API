@@ -84,24 +84,6 @@ class Order
     private $date_payment;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Menu::class)
-     * @Groups("read")
-     */
-    private $menus;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Food::class)
-     * @Groups("read")
-     */
-    private $foods;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Drink::class)
-     * @Groups("read")
-     */
-    private $drinks;
-
-    /**
      * @ORM\ManyToOne(targetEntity=OrderStatus::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      * @Groups("read")
@@ -130,15 +112,29 @@ class Order
      */
     private $drinkIds;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderMenu::class, mappedBy="order_", orphanRemoval=true, cascade="persist")
+     */
+    private $orderedMenu;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderFood::class, mappedBy="order_", orphanRemoval=true, cascade="persist")
+     */
+    private $orderedFood;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderDrink::class, mappedBy="order_", orphanRemoval=true, cascade="persist")
+     */
+    private $orderedDrink;
+
     public function __construct()
     {
-        $this->menus = new ArrayCollection();
-        $this->foods = new ArrayCollection();
-        $this->drinks = new ArrayCollection();
-
         $this->menuIds = [];
         $this->foodIds = [];
         $this->drinkIds = [];
+        $this->orderedMenu = new ArrayCollection();
+        $this->orderedFood = new ArrayCollection();
+        $this->orderedDrink = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,78 +186,6 @@ class Order
     public function setDatePayment(?\DateTimeInterface $date_payment): self
     {
         $this->date_payment = $date_payment;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Menu[]
-     */
-    public function getMenus(): Collection
-    {
-        return $this->menus;
-    }
-
-    public function addMenu(Menu $menu): self
-    {
-        if (!$this->menus->contains($menu)) {
-            $this->menus[] = $menu;
-        }
-
-        return $this;
-    }
-
-    public function removeMenu(Menu $menu): self
-    {
-        $this->menus->removeElement($menu);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Food[]
-     */
-    public function getFoods(): Collection
-    {
-        return $this->foods;
-    }
-
-    public function addFood(Food $foods): self
-    {
-        if (!$this->foods->contains($foods)) {
-            $this->foods[] = $foods;
-        }
-
-        return $this;
-    }
-
-    public function removeFood(Food $foods): self
-    {
-        $this->foods->removeElement($foods);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Drink[]
-     */
-    public function getDrinks(): Collection
-    {
-        return $this->drinks;
-    }
-
-    public function addDrink(Drink $drink): self
-    {
-        if (!$this->drinks->contains($drink)) {
-            $this->drinks[] = $drink;
-        }
-
-        return $this;
-    }
-
-    public function removeDrink(Drink $drink): self
-    {
-        $this->drinks->removeElement($drink);
 
         return $this;
     }
@@ -322,6 +246,96 @@ class Order
     public function setDrinkIds(array $drinkId): self
     {
         $this->drinkIds = $drinkId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderMenu[]
+     */
+    public function getOrderedMenu(): Collection
+    {
+        return $this->orderedMenu;
+    }
+
+    public function addOrderedMenu(OrderMenu $orderedMenu): self
+    {
+        if (!$this->orderedMenu->contains($orderedMenu)) {
+            $this->orderedMenu[] = $orderedMenu;
+            $orderedMenu->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderedMenu(OrderMenu $orderedMenu): self
+    {
+        if ($this->orderedMenu->removeElement($orderedMenu)) {
+            // set the owning side to null (unless already changed)
+            if ($orderedMenu->getOrder() === $this) {
+                $orderedMenu->setOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderFood[]
+     */
+    public function getOrderedFood(): Collection
+    {
+        return $this->orderedFood;
+    }
+
+    public function addOrderedFood(OrderFood $orderedFood): self
+    {
+        if (!$this->orderedFood->contains($orderedFood)) {
+            $this->orderedFood[] = $orderedFood;
+            $orderedFood->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderedFood(OrderFood $orderedFood): self
+    {
+        if ($this->orderedFood->removeElement($orderedFood)) {
+            // set the owning side to null (unless already changed)
+            if ($orderedFood->getOrder() === $this) {
+                $orderedFood->setOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderDrink[]
+     */
+    public function getOrderedDrink(): Collection
+    {
+        return $this->orderedDrink;
+    }
+
+    public function addOrderedDrink(OrderDrink $orderedDrink): self
+    {
+        if (!$this->orderedDrink->contains($orderedDrink)) {
+            $this->orderedDrink[] = $orderedDrink;
+            $orderedDrink->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderedDrink(OrderDrink $orderedDrink): self
+    {
+        if ($this->orderedDrink->removeElement($orderedDrink)) {
+            // set the owning side to null (unless already changed)
+            if ($orderedDrink->getOrder() === $this) {
+                $orderedDrink->setOrder(null);
+            }
+        }
 
         return $this;
     }
