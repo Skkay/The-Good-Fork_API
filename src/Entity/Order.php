@@ -127,6 +127,12 @@ class Order
      */
     private $orderedDrink;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"read", "write"})
+     */
+    private $datePickup;
+
     public function __construct()
     {
         $this->menuIds = [];
@@ -336,6 +342,18 @@ class Order
                 $orderedDrink->setOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDatePickup(): ?\DateTimeInterface
+    {
+        return $this->datePickup;
+    }
+
+    public function setDatePickup(?\DateTimeInterface $datePickup): self
+    {
+        $this->datePickup = $datePickup;
 
         return $this;
     }
