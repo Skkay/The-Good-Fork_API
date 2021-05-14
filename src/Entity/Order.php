@@ -114,16 +114,19 @@ class Order
 
     /**
      * @ORM\OneToMany(targetEntity=OrderMenu::class, mappedBy="order_", orphanRemoval=true, cascade="persist")
+     * @Groups("order:read")
      */
     private $orderedMenu;
 
     /**
      * @ORM\OneToMany(targetEntity=OrderFood::class, mappedBy="order_", orphanRemoval=true, cascade="persist")
+     * @Groups("order:read")
      */
     private $orderedFood;
 
     /**
      * @ORM\OneToMany(targetEntity=OrderDrink::class, mappedBy="order_", orphanRemoval=true, cascade="persist")
+     * @Groups("order:read")
      */
     private $orderedDrink;
 

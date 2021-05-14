@@ -54,37 +54,37 @@ class Menu
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("menu:read")
+     * @Groups({"menu:read", "order:read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=Drink::class, cascade="persist")
-     * @Groups("menu:read")
+     * @Groups("menu:read", "order:read")
      */
     private $drinks;
 
     /**
      * @ORM\ManyToMany(targetEntity=Food::class, cascade="persist")
-     * @Groups("menu:read")
+     * @Groups("menu:read", "order:read")
      */
     private $foods;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"menu:read", "menu:write"})
+     * @Groups({"menu:read", "menu:write", "order:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"menu:read", "menu:write"})
+     * @Groups({"menu:read", "menu:write", "order:read"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"menu:read", "menu:write"})
+     * @Groups({"menu:read", "menu:write", "order:read"})
      */
     private $description;
 

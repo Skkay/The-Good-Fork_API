@@ -52,25 +52,25 @@ class Food
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"food:read", "menu:read"})
+     * @Groups({"food:read", "menu:read", "order:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"food:read", "food:write", "menu:read"})
+     * @Groups({"food:read", "food:write", "menu:read", "order:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"food:read", "food:write", "menu:read"})
+     * @Groups({"food:read", "food:write", "menu:read", "order:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"food:read", "food:write", "menu:read"})
+     * @Groups({"food:read", "food:write", "menu:read", "order:read"})
      */
     private $price;
 

@@ -52,25 +52,25 @@ class Drink
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"drink:read", "menu:read"})
+     * @Groups({"drink:read", "menu:read", "order:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"drink:read", "drink:write", "menu:read"})
+     * @Groups({"drink:read", "drink:write", "menu:read", "order:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"drink:read", "drink:write", "menu:read"})
+     * @Groups({"drink:read", "drink:write", "menu:read", "order:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"drink:read", "drink:write", "menu:read"})
+     * @Groups({"drink:read", "drink:write", "menu:read", "order:read"})
      */
     private $price;
 
