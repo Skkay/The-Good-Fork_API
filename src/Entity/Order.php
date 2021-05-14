@@ -12,10 +12,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *      normalizationContext={
- *          "groups"="read"
+ *          "groups"="order:read"
  *      },
  *      denormalizationContext={
- *          "groups"="write"
+ *          "groups"="order:write"
  *      },
  *      collectionOperations={
  *          "get"={
@@ -55,60 +55,60 @@ class Order
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"order:read", "user:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"read", "write"})
+     * @Groups({"order:read", "order:write", "user:read"})
      */
     private $eatIn;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups("read")
+     * @Groups({"order:read", "user:read"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups("read")
+     * @Groups({"order:read", "user:read"})
      */
     private $date_order;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups("read")
+     * @Groups({"order:read", "user:read"})
      */
     private $date_payment;
 
     /**
      * @ORM\ManyToOne(targetEntity=OrderStatus::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("read")
+     * @Groups({"order:read", "user:read"})
      */
     private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("read")
+     * @Groups("order:read")
      */
     private $user;
 
     /**
-     * @Groups("write")
+     * @Groups("order:write")
      */
     private $menuIds;
 
     /**
-     * @Groups("write")
+     * @Groups("order:write")
      */
     private $foodIds;
 
     /**
-     * @Groups("write")
+     * @Groups("order:write")
      */
     private $drinkIds;
 
@@ -129,7 +129,7 @@ class Order
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"read", "write"})
+     * @Groups({"order:read", "order:write", "user:read"})
      */
     private $datePickup;
 

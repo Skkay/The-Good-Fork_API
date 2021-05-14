@@ -12,10 +12,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *      normalizationContext={
- *          "groups"="read"
+ *          "groups"="orderstatus:read"
  *      },
  *      denormalizationContext={
- *          "groups"="write"
+ *          "groups"="orderstatus:write"
  *      },
  *      collectionOperations={
  *          "get"={
@@ -54,13 +54,13 @@ class OrderStatus
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"orderstatus:read", "order:read", "user:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
+     * @Groups({"orderstatus:read", "orderstatus:write", "order:read", "user:read"})
      */
     private $label;
 

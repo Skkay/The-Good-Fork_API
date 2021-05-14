@@ -15,11 +15,11 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 /**
  * @ApiResource(
  *      normalizationContext={
- *          "groups"="read",
+ *          "groups"="user:read",
  *          "enable_max_depth"="true"
  *      },
  *      denormalizationContext={
- *          "groups"="write"
+ *          "groups"="user:write"
  *      },
  *      collectionOperations={
  *          "get"={
@@ -58,19 +58,19 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups("user:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"read", "write"})
+     * @Groups({"user:read", "user:write"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups("read")
+     * @Groups("user:read")
      */
     private $roles = [];
 
@@ -82,13 +82,13 @@ class User implements UserInterface
 
     /**
      * @SerializedName("password")
-     * @Groups("write")
+     * @Groups("user:write")
      */
     private $plainPassword;
 
     /**
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user", orphanRemoval=true)
-     * @Groups("read")
+     * @Groups("user:read")
      * @MaxDepth(1)
      */
     private $orders;

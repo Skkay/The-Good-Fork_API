@@ -12,10 +12,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *      normalizationContext={
- *          "groups"="read"
+ *          "groups"="menu:read"
  *      },
  *      denormalizationContext={
- *          "groups"="write"
+ *          "groups"="menu:write"
  *      },
  *      collectionOperations={
  *          "get"={
@@ -54,47 +54,47 @@ class Menu
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups("menu:read")
      */
     private $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=Drink::class, cascade="persist")
-     * @Groups("read")
+     * @Groups("menu:read")
      */
     private $drinks;
 
     /**
      * @ORM\ManyToMany(targetEntity=Food::class, cascade="persist")
-     * @Groups("read")
+     * @Groups("menu:read")
      */
     private $foods;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"read", "write"})
+     * @Groups({"menu:read", "menu:write"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"read", "write"})
+     * @Groups({"menu:read", "menu:write"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read", "write"})
+     * @Groups({"menu:read", "menu:write"})
      */
     private $description;
 
     /**
-     * @Groups("write")
+     * @Groups("menu:write")
      */
     private $drinkIds;
 
     /**
-     * @Groups("write")
+     * @Groups("menu:write")
      */
     private $foodIds;
 

@@ -10,10 +10,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *      normalizationContext={
- *          "groups"="read"
+ *          "groups"="food:read"
  *      },
  *      denormalizationContext={
- *          "groups"="write"
+ *          "groups"="food:write"
  *      },
  *      collectionOperations={
  *          "get"={
@@ -52,25 +52,25 @@ class Food
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"food:read", "menu:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"read", "write"})
+     * @Groups({"food:read", "food:write", "menu:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read", "write"})
+     * @Groups({"food:read", "food:write", "menu:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"read", "write"})
+     * @Groups({"food:read", "food:write", "menu:read"})
      */
     private $price;
 
