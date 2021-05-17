@@ -11,6 +11,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
+ *      attributes={
+ *          "order"={
+ *              "id": "DESC"
+ *          }
+ *      },
  *      normalizationContext={
  *          "groups"="order:read"
  *      },
