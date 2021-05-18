@@ -103,6 +103,10 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
         $data->setStatus($status);
         $data->setUser($this->security->getUser());
 
+        $rawString = $data->getExtraInformations();
+        $cleanedString = \preg_replace('/\s+/', ' ', trim($rawString));
+        $data->setExtraInformations($cleanedString);
+
         $this->em->persist($data);
         $this->em->flush();
     }
