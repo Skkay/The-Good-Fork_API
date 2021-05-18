@@ -141,6 +141,12 @@ class Order
      */
     private $datePickup;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"order:read", "order:write", "user:read"})
+     */
+    private $extraInformations;
+
     public function __construct()
     {
         $this->menuIds = [];
@@ -362,6 +368,18 @@ class Order
     public function setDatePickup(?\DateTimeInterface $datePickup): self
     {
         $this->datePickup = $datePickup;
+
+        return $this;
+    }
+
+    public function getExtraInformations(): ?string
+    {
+        return $this->extraInformations;
+    }
+
+    public function setExtraInformations(?string $extraInformations): self
+    {
+        $this->extraInformations = $extraInformations;
 
         return $this;
     }
