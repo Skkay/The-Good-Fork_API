@@ -92,6 +92,11 @@ class User implements UserInterface
      */
     private $orders;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $loyaltyPoints;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -215,6 +220,18 @@ class User implements UserInterface
                 $order->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLoyaltyPoints(): ?int
+    {
+        return $this->loyaltyPoints;
+    }
+
+    public function setLoyaltyPoints(int $loyaltyPoints): self
+    {
+        $this->loyaltyPoints = $loyaltyPoints;
 
         return $this;
     }
