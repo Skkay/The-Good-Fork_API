@@ -94,6 +94,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("user:read")
      */
     private $loyaltyPoints;
 
