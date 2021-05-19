@@ -52,6 +52,12 @@ class Discount
      */
     private $value;
 
+    /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     * @Groups("discount:read")
+     */
+    private $cost;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +83,18 @@ class Discount
     public function setValue(int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getCost(): ?int
+    {
+        return $this->cost;
+    }
+
+    public function setCost(int $cost): self
+    {
+        $this->cost = $cost;
 
         return $this;
     }
