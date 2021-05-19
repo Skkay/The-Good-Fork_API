@@ -95,19 +95,26 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             }
         }
 
+        $user = $this->security->getUser();
+
         $orderStatusRepository = $this->em->getRepository(OrderStatus::class);
         $status = $orderStatusRepository->findOneByLabel('En attente'); // TODO: Set default status via admin panel
 
         $data->setDateOrder(new \DateTime());
         $data->setPrice($totalPrice);
         $data->setStatus($status);
-        $data->setUser($this->security->getUser());
+        $data->setUser($user);
 
         $rawString = $data->getExtraInformations();
         $cleanedString = \preg_replace('/\s+/', ' ', trim($rawString));
         $data->setExtraInformations($cleanedString);
 
+        $userLoyaltyPoints = $user->getLoyaltyPoints();
+        $userLoyaltyPoints += \floor($totalPrice);
+        $user->setLoyaltyPoints($userLoyaltyPoints);
+
         $this->em->persist($data);
+        $this->em->persist($user);
         $this->em->flush();
     }
 
