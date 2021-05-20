@@ -6,6 +6,7 @@ use App\Entity\Food;
 use App\Entity\Menu;
 use App\Entity\Drink;
 use App\Entity\Order;
+use App\Entity\Discount;
 use App\Entity\OrderFood;
 use App\Entity\OrderMenu;
 use App\Entity\OrderDrink;
@@ -14,6 +15,7 @@ use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Exception\EntityNotFoundException;
 use Symfony\Component\Security\Core\Security;
+use App\Exception\NotEnoughLoyaltyPointsException;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 
 class OrderDataPersister implements ContextAwareDataPersisterInterface
@@ -95,7 +97,24 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             }
         }
 
+
         $user = $this->security->getUser();
+        $userLoyaltyPoints = $user->getLoyaltyPoints();
+
+        // Calculate new price if a discount is selected, throw an error if user has not enough loyalty points, update user's loyalty points
+        if ($data->getDiscountId() !== 0) {
+            $discountRepository = $this->em->getRepository(Discount::class);
+            $discountId = $data->getDiscountId();
+            $discount = $discountRepository->find($discountId);
+            if ($discount === null) {
+                throw new EntityNotFoundException(sprintf('Discount with id "%s" is not found', $discountId));
+            }
+            if ($discount->getCost() > $userLoyaltyPoints) {
+                throw new NotEnoughLoyaltyPointsException(sprintf('User has not enough loyalty points'));
+            }
+            $totalPrice = round($totalPrice * (1 - $discount->getValue() / 100), 2);
+            $userLoyaltyPoints -= $discount->getCost();
+        }
 
         $orderStatusRepository = $this->em->getRepository(OrderStatus::class);
         $status = $orderStatusRepository->findOneByLabel('En attente'); // TODO: Set default status via admin panel
@@ -109,7 +128,6 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
         $cleanedString = \preg_replace('/\s+/', ' ', trim($rawString));
         $data->setExtraInformations($cleanedString);
 
-        $userLoyaltyPoints = $user->getLoyaltyPoints();
         $userLoyaltyPoints += \floor($totalPrice);
         $user->setLoyaltyPoints($userLoyaltyPoints);
 
