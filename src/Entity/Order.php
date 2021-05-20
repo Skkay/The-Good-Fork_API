@@ -147,6 +147,11 @@ class Order
      */
     private $extraInformations;
 
+    /**
+     * @Groups("order:write")
+     */
+    private $discountId;
+
     public function __construct()
     {
         $this->menuIds = [];
@@ -382,5 +387,17 @@ class Order
         $this->extraInformations = $extraInformations;
 
         return $this;
+    }
+
+    public function setDiscountId(int $discountId): self
+    {
+        $this->discountId = $discountId;
+
+        return $this;
+    }
+
+    public function getDiscountId(): ?int
+    {
+        return $this->discountId;
     }
 }
