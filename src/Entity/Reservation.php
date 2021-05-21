@@ -86,9 +86,19 @@ class Reservation
 
     /**
      * @ORM\Column(type="date")
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "reservation:write"})
      */
     private $date;
+
+    /**
+     * @Groups("reservation:write")
+     */
+    private $serviceId;
+
+    /**
+     * @Groups("reservation:write")
+     */
+    private $tableId;
 
     public function getId(): ?int
     {
@@ -139,6 +149,30 @@ class Reservation
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getServiceId(): int
+    {
+        return $this->serviceId;
+    }
+
+    public function setServiceId(int $serviceId): self
+    {
+        $this->serviceId = $serviceId;
+
+        return $this;
+    }
+
+    public function getTableId(): int
+    {
+        return $this->tableId;
+    }
+
+    public function setTableId(int $tableId): self
+    {
+        $this->tableId = $tableId;
 
         return $this;
     }
