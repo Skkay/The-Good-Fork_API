@@ -32,7 +32,7 @@ class AvailableTablesController extends AbstractController
         for ($i = 0; $i < 7; $i++) {
             foreach ($services as $service) {
                 foreach ($tables as $table) {
-                    $uniqueTable = ["table_id" => strval($table->getId()), "service_id" => strval($service->getId()), "date" => date('Y-m-d', strtotime("+$i day"))];
+                    $uniqueTable = ["table" => strval($table->getId()), "service" => strval($service->getId()), "date" => date('Y-m-d', strtotime("+$i day"))];
                     $allTables[] = $uniqueTable;
                 }
             }
@@ -51,10 +51,10 @@ class AvailableTablesController extends AbstractController
             // To get object instead of its ID
             $tableObject = [];
             foreach ($value as $field => $id) {
-                if ($field === "table_id") {
+                if ($field === "table") {
                     $tableObject[$field] = $tableRepository->find($id);
                 }
-                else if ($field === "service_id") {
+                else if ($field === "service") {
                     $tableObject[$field] = $serviceRepository->find($id);
                 }
                 else if ($field === "date") {
