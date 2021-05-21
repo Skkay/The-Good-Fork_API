@@ -98,9 +98,15 @@ class User implements UserInterface
      */
     private $loyaltyPoints;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $reservations;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -233,6 +239,36 @@ class User implements UserInterface
     public function setLoyaltyPoints(int $loyaltyPoints): self
     {
         $this->loyaltyPoints = $loyaltyPoints;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getUser() === $this) {
+                $reservation->setUser(null);
+            }
+        }
 
         return $this;
     }
