@@ -2,10 +2,55 @@
 
 namespace App\Entity;
 
-use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\AvailableTablesController;
+use App\Repository\ReservationRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *      normalizationContext={
+ *          "groups"="reservation:read"
+ *      },
+ *      denormalizationContext={
+ *          "groups"="reservation:write"
+ *      },
+ *      collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "path"="/reservations"
+ *          },
+ *          "get_available_tables"={
+ *              "method"="GET",
+ *              "security"="is_granted('ROLE_USER')", 
+ *              "path"="/available_tables",
+ *              "controller"=AvailableTablesController::class
+ *          },
+ *          "post"={
+ *              "security"="is_granted('ROLE_USER')", 
+ *              "path"="/reservations"
+ *          },
+ *      },
+ *      itemOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
+ *              "path"="/reservations/{id}"
+ *          },
+ *          "put"={
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
+ *              "path"="/reservations/{id}"
+ *          },
+ *          "delete"={
+ *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "path"="/reservations/{id}"
+ *          },
+ *          "patch"={
+ *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
+ *              "path"="/reservations/{id}"
+ *          }
+ *      }
+ * )
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
  */
 class Reservation
@@ -14,29 +59,34 @@ class Reservation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("reservation:read")
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("reservation:read")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("reservation:read")
      */
     private $service;
 
     /**
      * @ORM\ManyToOne(targetEntity=Table::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("reservation:read")
      */
     private $table_;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("reservation:read")
      */
     private $date;
 
