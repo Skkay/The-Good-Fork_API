@@ -19,3 +19,4 @@ api_platform:
         App\Exception\FieldAlreadyUsedException: 400
         App\Exception\EntityNotFoundException: 400
         App\Exception\NotEnoughLoyaltyPointsException: 400
+        App\Exception\TableAlreadyReservedException: 400
