@@ -29,9 +29,9 @@ class AvailableTablesController extends AbstractController
         $services = $serviceRepository->findAll();
         $tables = $tableRepository->findAll();        
         $allTables = []; // One table per service per day (7 days max)
-        foreach ($tables as $table) {
+        for ($i = 0; $i < 7; $i++) {
             foreach ($services as $service) {
-                for ($i = 0; $i < 7; $i++) {
+                foreach ($tables as $table) {
                     $uniqueTable = ["table_id" => strval($table->getId()), "service_id" => strval($service->getId()), "date" => date('Y-m-d', strtotime("+$i day"))];
                     $allTables[] = $uniqueTable;
                 }
