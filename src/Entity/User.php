@@ -100,6 +100,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="user", orphanRemoval=true)
+     * @ApiSubresource()
      */
     private $reservations;
 
