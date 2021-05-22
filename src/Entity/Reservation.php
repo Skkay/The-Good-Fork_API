@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Controller\AvailableTablesController;
 use App\Repository\ReservationRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AvailableTablesController;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
  * @ApiResource(
@@ -50,6 +52,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "path"="/reservations/{id}"
  *          }
  *      }
+ * )
+ * @ApiFilter(
+ *      DateFilter::class,
+ *      properties={"date"}
  * )
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
  */
