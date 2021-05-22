@@ -22,7 +22,7 @@ class ReservationRepository extends ServiceEntityRepository
     public function findReservedTables()
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT table__id AS table_id, service_id, date FROM reservation WHERE date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL +6 DAY)';
+        $sql = 'SELECT table__id AS `table`, service_id AS `service`, date FROM reservation WHERE date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL +6 DAY)';
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt;
