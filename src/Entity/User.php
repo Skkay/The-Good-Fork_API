@@ -96,7 +96,7 @@ class User implements UserInterface
      * @ORM\Column(type="integer", options={"default": 0})
      * @Groups("user:read")
      */
-    private $loyaltyPoints;
+    private $loyaltyPoints = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="user", orphanRemoval=true)
