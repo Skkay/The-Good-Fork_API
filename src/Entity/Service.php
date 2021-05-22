@@ -32,19 +32,19 @@ class Service
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $startTime;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $endTime;
 

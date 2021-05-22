@@ -11,6 +11,7 @@ use App\Entity\OrderFood;
 use App\Entity\OrderMenu;
 use App\Entity\OrderDrink;
 use App\Entity\OrderStatus;
+use App\Entity\Reservation;
 use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Exception\EntityNotFoundException;
@@ -130,6 +131,12 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
 
         $userLoyaltyPoints += \floor($totalPrice);
         $user->setLoyaltyPoints($userLoyaltyPoints);
+
+        if ($data->getReservationId()) {
+            $reservationRepository = $this->em->getRepository(Reservation::class);
+            $reservation = $reservationRepository->find($data->getReservationId());
+            $data->setReservation($reservation);
+        }
 
         $this->em->persist($data);
         $this->em->persist($user);

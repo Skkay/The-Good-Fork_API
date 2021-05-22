@@ -152,6 +152,17 @@ class Order
      */
     private $discountId;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Reservation::class, inversedBy="order_", cascade={"persist", "remove"})
+     * @Groups("order:read")
+     */
+    private $reservation;
+
+    /**
+     * @Groups("order:write")
+     */
+    private $reservationId;
+
     public function __construct()
     {
         $this->menuIds = [];
@@ -399,5 +410,29 @@ class Order
     public function getDiscountId(): ?int
     {
         return $this->discountId;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    public function setReservationId(int $reservationId): self
+    {
+        $this->reservationId = $reservationId;
+
+        return $this;
+    }
+
+    public function getReservationId(): ?int
+    {
+        return $this->reservationId;
     }
 }

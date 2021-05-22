@@ -33,19 +33,19 @@ class Table
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $place;
 

@@ -58,13 +58,13 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("user:read")
+     * @Groups({"user:read", "order:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read", "user:write", "order:read"})
      */
     private $email;
 

@@ -65,34 +65,34 @@ class Reservation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $service;
 
     /**
      * @ORM\ManyToOne(targetEntity=Table::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("reservation:read")
+     * @Groups({"reservation:read", "order:read"})
      */
     private $table_;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups({"reservation:read", "reservation:write"})
+     * @Groups({"reservation:read", "reservation:write", "order:read"})
      */
     private $date;
 
@@ -105,6 +105,12 @@ class Reservation
      * @Groups("reservation:write")
      */
     private $tableId;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Order::class, mappedBy="reservation", cascade={"persist", "remove"})
+     * @Groups("order:read")
+     */
+    private $order_;
 
     public function getId(): ?int
     {
@@ -179,6 +185,28 @@ class Reservation
     public function setTableId(int $tableId): self
     {
         $this->tableId = $tableId;
+
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order_;
+    }
+
+    public function setOrder(?Order $order_): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($order_ === null && $this->order_ !== null) {
+            $this->order_->setReservation(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($order_ !== null && $order_->getReservation() !== $this) {
+            $order_->setReservation($this);
+        }
+
+        $this->order_ = $order_;
 
         return $this;
     }
