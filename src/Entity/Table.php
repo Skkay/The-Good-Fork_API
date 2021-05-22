@@ -49,6 +49,11 @@ class Table
      */
     private $place;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="table_", orphanRemoval=true)
+     */
+    private $reservations;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -79,6 +84,36 @@ class Table
     public function setPlace(int $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setTable($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getTable() === $this) {
+                $reservation->setTable(null);
+            }
+        }
 
         return $this;
     }
