@@ -2,12 +2,28 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ServiceRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *      collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "path"="/services"
+ *          }
+ *      },
+ *      itemOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "path"="/services/{id}"
+ *          }
+ *      }
+ * )
  * @ORM\Entity(repositoryClass=ServiceRepository::class)
  */
 class Service
@@ -16,16 +32,19 @@ class Service
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("reservation:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("reservation:read")
      */
     private $startTime;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("reservation:read")
      */
     private $endTime;
 
