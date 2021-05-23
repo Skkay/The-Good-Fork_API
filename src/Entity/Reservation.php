@@ -108,7 +108,6 @@ class Reservation
 
     /**
      * @ORM\OneToOne(targetEntity=Order::class, mappedBy="reservation", cascade={"persist", "remove"})
-     * @Groups("order:read")
      */
     private $order_;
 
