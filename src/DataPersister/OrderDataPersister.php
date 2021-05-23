@@ -132,7 +132,7 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
         $userLoyaltyPoints += \floor($totalPrice);
         $user->setLoyaltyPoints($userLoyaltyPoints);
 
-        if ($data->getReservationId()) {
+        if ($data->getReservationId() !== 0) {
             $reservationRepository = $this->em->getRepository(Reservation::class);
             $reservation = $reservationRepository->find($data->getReservationId());
             $data->setReservation($reservation);
