@@ -35,7 +35,7 @@ class ReservationDataPersister implements ContextAwareDataPersisterInterface
         $reservation = $reservationRepository->findOneBy(['service' => $data->getServiceId(), 'table_' => $data->getTableId(), 'date' => $data->getDate()]);
 
         if ($reservation) {
-            throw new TableAlreadyReservedException(\sprintf('The table with id "%d" for the service with id "%d" for the date "%s" is already reserved', $data->getTableId(), $data->getServiceId(), $data->getDate()->format('Y-m-d')));
+            throw new TableAlreadyReservedException(\sprintf('TableAlreadyReservedException//The table with id "%d" for the service with id "%d" for the date "%s" is already reserved', $data->getTableId(), $data->getServiceId(), $data->getDate()->format('Y-m-d')));
         }
         
         $serviceRepository = $this->em->getRepository(Service::class);

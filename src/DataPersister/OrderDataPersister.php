@@ -49,7 +49,7 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             foreach ($occurencies as $menuId => $quantity) {
                 $menu = $menuRepository->find($menuId);
                 if ($menu === null) {
-                    throw new EntityNotFoundException(sprintf('Menu with id "%s" is not found', $menuId));
+                    throw new EntityNotFoundException(sprintf('EntityNotFoundException//Menu with id "%s" is not found', $menuId));
                 }
                 $orderMenu = new OrderMenu();
                 $orderMenu->setMenu($menu);
@@ -68,7 +68,7 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             foreach ($occurencies as $foodId => $quantity) {
                 $food = $foodRepository->find($foodId);
                 if ($food === null) {
-                    throw new EntityNotFoundException(sprintf('Food with id "%s" is not found', $foodId));
+                    throw new EntityNotFoundException(sprintf('EntityNotFoundException//Food with id "%s" is not found', $foodId));
                 }
                 $orderFood = new OrderFood();
                 $orderFood->setFood($food);
@@ -87,7 +87,7 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             foreach ($occurencies as $drinkId => $quantity) {
                 $drink = $drinkRepository->find($drinkId);
                 if ($drink === null) {
-                    throw new EntityNotFoundException(sprintf('Drink with id "%s" is not found', $drinkId));
+                    throw new EntityNotFoundException(sprintf('EntityNotFoundException//Drink with id "%s" is not found', $drinkId));
                 }
                 $orderDrink = new OrderDrink();
                 $orderDrink->setDrink($drink);
@@ -108,10 +108,10 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             $discountId = $data->getDiscountId();
             $discount = $discountRepository->find($discountId);
             if ($discount === null) {
-                throw new EntityNotFoundException(sprintf('Discount with id "%s" is not found', $discountId));
+                throw new EntityNotFoundException(sprintf('EntityNotFoundException//Discount with id "%s" is not found', $discountId));
             }
             if ($discount->getCost() > $userLoyaltyPoints) {
-                throw new NotEnoughLoyaltyPointsException(sprintf('User has not enough loyalty points'));
+                throw new NotEnoughLoyaltyPointsException(sprintf('NotEnoughLoyaltyPointsException//User has not enough loyalty points'));
             }
             $totalPrice = round($totalPrice * (1 - $discount->getValue() / 100), 2);
             $userLoyaltyPoints -= $discount->getCost();

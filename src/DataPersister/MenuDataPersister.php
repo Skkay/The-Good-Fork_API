@@ -33,7 +33,7 @@ class MenuDataPersister implements ContextAwareDataPersisterInterface
             foreach ($data->getDrinkIds() as $drinkId) {
                 $drink = $drinkRepository->find($drinkId);
                 if ($drink === null) {
-                    throw new EntityNotFoundException(sprintf('Drink with id "%s" is not found', $drinkId));
+                    throw new EntityNotFoundException(sprintf('EntityNotFoundException//Drink with id "%s" is not found', $drinkId));
                 }
                 $data->addDrink($drink);
             }
@@ -45,7 +45,7 @@ class MenuDataPersister implements ContextAwareDataPersisterInterface
             foreach ($data->getFoodIds() as $foodId) {
                 $food = $foodRepository->find($foodId);
                 if ($food === null) {
-                    throw new EntityNotFoundException(sprintf('Food with id "%s" is not found', $foodId));
+                    throw new EntityNotFoundException(sprintf('EntityNotFoundException//Food with id "%s" is not found', $foodId));
                 }
                 $data->addFood($food);
             }
@@ -57,7 +57,7 @@ class MenuDataPersister implements ContextAwareDataPersisterInterface
         }
         catch (UniqueConstraintViolationException $e)
         {
-            throw new FieldAlreadyUsedException(sprintf('The name "%s" is already used', $data->getName()));
+            throw new FieldAlreadyUsedException(sprintf('FieldAlreadyUsedException//The name "%s" is already used', $data->getName()));
         }
     }
 

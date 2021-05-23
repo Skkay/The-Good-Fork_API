@@ -37,7 +37,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
             $this->em->flush();
         }
         catch (UniqueConstraintViolationException $e) {
-            throw new FieldAlreadyUsedException(sprintf('The email "%s" is already used.', $data->getEmail()));
+            throw new FieldAlreadyUsedException(sprintf('FieldAlreadyUsedException//The email "%s" is already used.', $data->getEmail()));
         }
     }
 

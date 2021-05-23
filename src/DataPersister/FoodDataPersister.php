@@ -30,7 +30,7 @@ class FoodDataPersister implements ContextAwareDataPersisterInterface
         }
         catch (UniqueConstraintViolationException $e)
         {
-            throw new FieldAlreadyUsedException(sprintf('The name "%s" is already used', $data->getName()));
+            throw new FieldAlreadyUsedException(sprintf('FieldAlreadyUsedException//The name "%s" is already used', $data->getName()));
         }
     }
 
