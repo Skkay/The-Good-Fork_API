@@ -12,6 +12,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
  * @ApiResource(
+ *      attributes={
+ *          "order"={
+ *              "date": "ASC"
+ *          }
+ *      },
  *      normalizationContext={
  *          "groups"="reservation:read"
  *      },
