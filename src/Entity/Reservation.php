@@ -76,7 +76,6 @@ class Reservation
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
-     * @ORM\JoinColumn(nullable=false)
      * @Groups({"reservation:read", "order:read"})
      */
     private $user;
