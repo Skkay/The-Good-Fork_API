@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\OrderRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
 
 /**
  * @ApiResource(
@@ -50,6 +52,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "path"="/orders/{id}"
  *          }
  *      }
+ * )
+ * @ApiFilter(
+ *      NumericFilter::class,
+ *      properties={"status.id"}
  * )
  * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\Table(name="`order`")
