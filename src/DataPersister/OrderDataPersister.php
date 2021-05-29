@@ -98,9 +98,14 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
             }
         }
 
-
-        $user = $this->security->getUser();
-        $userLoyaltyPoints = $user->getLoyaltyPoints();
+        
+        if ($data->getOrderedByStaff()) {
+            $user = null;
+        }
+        else {
+            $user = $this->security->getUser();
+            $userLoyaltyPoints = $user->getLoyaltyPoints();
+        }
 
         // Calculate new price if a discount is selected, throw an error if user has not enough loyalty points, update user's loyalty points
         if ($data->getDiscountId() !== 0) {
@@ -129,8 +134,11 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
         $cleanedString = \preg_replace('/\s+/', ' ', trim($rawString));
         $data->setExtraInformations($cleanedString);
 
-        $userLoyaltyPoints += \floor($totalPrice);
-        $user->setLoyaltyPoints($userLoyaltyPoints);
+        if ($user) {
+            $userLoyaltyPoints += \floor($totalPrice);
+            $user->setLoyaltyPoints($userLoyaltyPoints);
+            $this->em->persist($user);
+        }
 
         if ($data->getReservationId() !== 0) {
             $reservationRepository = $this->em->getRepository(Reservation::class);
@@ -139,7 +147,6 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
         }
 
         $this->em->persist($data);
-        $this->em->persist($user);
         $this->em->flush();
     }
 
