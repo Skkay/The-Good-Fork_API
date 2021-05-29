@@ -116,6 +116,11 @@ class Reservation
     private $order_;
 
     /**
+     * @Groups("reservation:write")
+     */
+    private $reservedByStaff;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"reservation:read", "reservation:write", "order:read"})
      */
@@ -216,6 +221,18 @@ class Reservation
         }
 
         $this->order_ = $order_;
+
+        return $this;
+    }
+
+    public function getReservedByStaff(): ?bool
+    {
+        return $this->reservedByStaff;
+    }
+
+    public function setReservedByStaff(bool $reservedByStaff): self
+    {
+        $this->reservedByStaff = $reservedByStaff;
 
         return $this;
     }
