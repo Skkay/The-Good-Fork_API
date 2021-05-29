@@ -170,6 +170,11 @@ class Order
      */
     private $reservationId;
 
+    /**
+     * @Groups("order:write")
+     */
+    private $orderedByStaff;
+
     public function __construct()
     {
         $this->menuIds = [];
@@ -441,5 +446,17 @@ class Order
     public function getReservationId(): ?int
     {
         return $this->reservationId;
+    }
+
+    public function setOrderedByStaff(bool $orderedByStaff): self
+    {
+        $this->orderedByStaff = $orderedByStaff;
+
+        return $this;
+    }
+
+    public function getOrderedByStaff(): ?bool
+    {
+        return $this->orderedByStaff;
     }
 }
