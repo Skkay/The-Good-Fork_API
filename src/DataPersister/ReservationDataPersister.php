@@ -41,7 +41,13 @@ class ReservationDataPersister implements ContextAwareDataPersisterInterface
         $serviceRepository = $this->em->getRepository(Service::class);
         $tableRepository = $this->em->getRepository(Table::class);
 
-        $user = $this->security->getUser();
+        if ($data->getReservedByStaff()) {
+            $user = null;
+        }
+        else {
+            $user = $this->security->getUser();
+        }
+
         $service = $serviceRepository->find($data->getServiceId());
         $table = $tableRepository->find($data->getTableId());
 
