@@ -115,6 +115,12 @@ class Reservation
      */
     private $order_;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reservation:read", "reservation:write", "order:read"})
+     */
+    private $customerName;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -210,6 +216,18 @@ class Reservation
         }
 
         $this->order_ = $order_;
+
+        return $this;
+    }
+
+    public function getCustomerName(): ?string
+    {
+        return $this->customerName;
+    }
+
+    public function setCustomerName(?string $customerName): self
+    {
+        $this->customerName = $customerName;
 
         return $this;
     }
