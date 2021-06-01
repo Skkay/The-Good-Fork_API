@@ -41,6 +41,10 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
     {
         $totalPrice = 0;
 
+        // Default values
+        $data->setChefHasValidated(false);
+        $data->setBarmanHasValidated(false);
+
         // Convert menu ids to orderedMenu object with number of menus, then set it to data
         if (!empty($data->getMenuIds())) {
             $menuRepository = $this->em->getRepository(Menu::class);
@@ -78,6 +82,9 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
                 $totalPrice += $food->getPrice() * $quantity;
             }
         }
+        else {
+            $data->setChefHasValidated(true);
+        }
         
         // Convert drink ids to orderedDrink object with number of drinks, then set it to data       
         if (!empty($data->getDrinkIds())) {
@@ -96,6 +103,9 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
                 $data->addOrderedDrink($orderDrink);
                 $totalPrice += $drink->getPrice() * $quantity;
             }
+        }
+        else {
+            $data->setBarmanHasValidated(true);
         }
 
         
