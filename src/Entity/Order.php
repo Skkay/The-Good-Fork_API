@@ -58,7 +58,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
  *      NumericFilter::class,
  *      properties={"status.id"}
  * )
- * @ApiFilter(BooleanFilter::class, properties={"eatIn"})
+ * @ApiFilter(BooleanFilter::class, properties={"eatIn", "chefHasValidated", "barmanHasValidated"})
  * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\Table(name="`order`")
  */
@@ -174,6 +174,18 @@ class Order
      * @Groups("order:write")
      */
     private $orderedByStaff;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups("order:read")
+     */
+    private $chefHasValidated;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups("order:read")
+     */
+    private $barmanHasValidated;
 
     public function __construct()
     {
@@ -458,5 +470,29 @@ class Order
     public function getOrderedByStaff(): ?bool
     {
         return $this->orderedByStaff;
+    }
+
+    public function getChefHasValidated(): ?bool
+    {
+        return $this->chefHasValidated;
+    }
+
+    public function setChefHasValidated(bool $chefHasValidated): self
+    {
+        $this->chefHasValidated = $chefHasValidated;
+
+        return $this;
+    }
+
+    public function getBarmanHasValidated(): ?bool
+    {
+        return $this->barmanHasValidated;
+    }
+
+    public function setBarmanHasValidated(bool $barmanHasValidated): self
+    {
+        $this->barmanHasValidated = $barmanHasValidated;
+
+        return $this;
     }
 }
