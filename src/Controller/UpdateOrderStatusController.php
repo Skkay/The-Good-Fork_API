@@ -46,4 +46,60 @@ class UpdateOrderStatusController extends AbstractController
 
         return $this->json($order);
     }
+
+    /**
+     * @Route("/api/orders/{orderId}/chef_validate", name="chef_validate_order", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function chefValidation($orderId): Response
+    {
+        $orderRepository = $this->em->getRepository(Order::class);
+        $order = $orderRepository->find($orderId);
+        if ($order === null) {
+            throw new EntityNotFoundException(sprintf('EntityNotFoundException//Order with id "%s" is not found', $orderId));
+        }
+        $order->setChefHasValidated(true);
+
+        if ($order->getBarmanHasValidated()) { // Chef and Barman have both validated, update the status
+            $statusRepository = $this->em->getRepository(OrderStatus::class);
+            $status = $statusRepository->find(4);
+            if ($status === null) {
+                throw new EntityNotFoundException(sprintf('EntityNotFoundException//OrderStatus with id "%s" is not found', $statusId));
+            }
+            $order->setStatus($status);
+        }
+
+        $this->em->persist($order);
+        $this->em->flush();
+
+        return $this->json($order);
+    }
+
+    /**
+     * @Route("/api/orders/{orderId}/barman_validate", name="barman_validate_order", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function barmanValidation($orderId): Response
+    {
+        $orderRepository = $this->em->getRepository(Order::class);
+        $order = $orderRepository->find($orderId);
+        if ($order === null) {
+            throw new EntityNotFoundException(sprintf('EntityNotFoundException//Order with id "%s" is not found', $orderId));
+        }
+        $order->setBarmanHasValidated(true);
+
+        if ($order->getChefHasValidated()) { // Chef and Barman have both validated, update the status
+            $statusRepository = $this->em->getRepository(OrderStatus::class);
+            $status = $statusRepository->find(4);
+            if ($status === null) {
+                throw new EntityNotFoundException(sprintf('EntityNotFoundException//OrderStatus with id "%s" is not found', $statusId));
+            }
+            $order->setStatus($status);
+        }
+
+        $this->em->persist($order);
+        $this->em->flush();
+
+        return $this->json($order);
+    }
 }
