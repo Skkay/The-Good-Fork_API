@@ -82,9 +82,6 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
                 $totalPrice += $food->getPrice() * $quantity;
             }
         }
-        else {
-            $data->setChefHasValidated(true);
-        }
         
         // Convert drink ids to orderedDrink object with number of drinks, then set it to data       
         if (!empty($data->getDrinkIds())) {
@@ -104,7 +101,14 @@ class OrderDataPersister implements ContextAwareDataPersisterInterface
                 $totalPrice += $drink->getPrice() * $quantity;
             }
         }
-        else {
+
+        // Set order as validated for Chef if there is no Food and no Menu 
+        // Set order as validated for Barman if there is no Drink and no Menu
+        // (assuming that a menu necessarily contains at least one food and one drink)
+        if (empty($data->getFoodIds()) && empty($data->getMenuIds())) {
+            $data->setChefHasValidated(true);
+        }
+        if (empty($data->getDrinkIds()) && empty($data->getMenuIds())) {
             $data->setBarmanHasValidated(true);
         }
 
