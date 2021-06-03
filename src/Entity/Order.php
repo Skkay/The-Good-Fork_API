@@ -27,7 +27,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
  *      },
  *      collectionOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_ADMIN')", 
+ *              "security"="is_granted('ROLE_ADMIN') or is_granted('ROLE_WAITER') or is_granted('ROLE_BARMAN') or is_granted('ROLE_CHEF')", 
  *              "path"="/orders"
  *          },
  *          "post"={
@@ -37,19 +37,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
  *      },
  *      itemOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
- *              "path"="/orders/{id}"
- *          },
- *          "put"={
- *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
- *              "path"="/orders/{id}"
- *          },
- *          "delete"={
- *              "security"="is_granted('ROLE_ADMIN')", 
- *              "path"="/orders/{id}"
- *          },
- *          "patch"={
- *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
+ *              "security"="is_granted('ROLE_ADMIN') or is_granted('ROLE_WAITER') or is_granted('ROLE_BARMAN') or is_granted('ROLE_CHEF') or object.getUser() == user", 
  *              "path"="/orders/{id}"
  *          }
  *      }

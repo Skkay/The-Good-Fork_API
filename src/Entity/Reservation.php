@@ -43,18 +43,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *          "get"={
  *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
  *              "path"="/reservations/{id}"
- *          },
- *          "put"={
- *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
- *              "path"="/reservations/{id}"
- *          },
- *          "delete"={
- *              "security"="is_granted('ROLE_ADMIN')", 
- *              "path"="/reservations/{id}"
- *          },
- *          "patch"={
- *              "security"="is_granted('ROLE_ADMIN') or object.getUser() == user", 
- *              "path"="/reservations/{id}"
  *          }
  *      }
  * )

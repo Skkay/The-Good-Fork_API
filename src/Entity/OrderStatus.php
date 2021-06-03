@@ -21,26 +21,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "get"={
  *              "security"="is_granted('ROLE_ADMIN')", 
  *              "path"="/order_status"
- *          },
- *          "post"={
- *              "security"="is_granted('ROLE_ADMIN')", 
- *              "path"="/order_status"
  *          }
  *      },
  *      itemOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_ADMIN')", 
- *              "path"="/order_status/{id}"
- *          },
- *          "put"={
- *              "security"="is_granted('ROLE_ADMIN')", 
- *              "path"="/order_status/{id}"
- *          },
- *          "delete"={
- *              "security"="is_granted('ROLE_ADMIN')", 
- *              "path"="/order_status/{id}"
- *          },
- *          "patch"={
  *              "security"="is_granted('ROLE_ADMIN')", 
  *              "path"="/order_status/{id}"
  *          }

@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Exception\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UpdateOrderStatusController extends AbstractController
@@ -22,7 +22,7 @@ class UpdateOrderStatusController extends AbstractController
 
     /**
      * @Route("/api/orders/{orderId}/update_status/{statusId}", name="update_order_status", methods={"POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_WAITER')")
      */
     public function index($orderId, $statusId): Response
     {
@@ -49,7 +49,7 @@ class UpdateOrderStatusController extends AbstractController
 
     /**
      * @Route("/api/orders/{orderId}/chef_validate", name="chef_validate_order", methods={"POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CHEF')")
      */
     public function chefValidation($orderId): Response
     {
@@ -77,7 +77,7 @@ class UpdateOrderStatusController extends AbstractController
 
     /**
      * @Route("/api/orders/{orderId}/barman_validate", name="barman_validate_order", methods={"POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_BARMAN')")
      */
     public function barmanValidation($orderId): Response
     {
